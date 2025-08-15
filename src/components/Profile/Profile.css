@@ -1,0 +1,200 @@
+
+.profile-container {
+    display: grid;
+    gap: 20px;
+    padding: 2rem;
+}
+
+@media (min-width: 768px) {
+    .profile-container {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* 2-3 columns on tablets */
+    }
+}
+
+
+.profile-container {
+    display: grid;
+    gap: 20px;
+    padding: 2rem;
+}
+
+@media (min-width: 768px) {
+    .profile-container {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+}
+
+@media (min-width: 1024px) {
+    .profile-container {
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+}
+
+.profile-section {
+    margin-top: 0;
+    padding: 20px;
+    border: 1px solid var(--border-primary);
+    border-radius: 8px;
+    background-color: var(--bg-tertiary);
+}
+
+/* Estilos para el bloque unificado de perfil */
+.user-profile-header {
+    text-align: center; /* Centrar todo el contenido */
+}
+
+.avatar-container {
+    margin: 1rem auto;
+    width: 150px;
+    height: 150px;
+}
+
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--bg-secondary);
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.profile-avatar-svg {
+    width: 150px;
+    height: 150px;
+}
+
+.avatar-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem; /* Espacio antes de la sección del nombre */
+}
+
+.username-section {
+    display: flex;
+    flex-direction: column; /* Apilar input y botón */
+    align-items: center;
+    gap: 10px;
+    max-width: 300px; /* Limitar ancho para que no se estire demasiado */
+    margin: 0 auto; /* Centrar el contenedor */
+}
+
+.username-section .input-field {
+    width: 100%;
+}
+
+.error-message {
+    color: var(--button-danger-bg);
+    margin-top: 1rem;
+    grid-column: 1 / -1; /* Ocupar todo el ancho si hay error */
+    text-align: center;
+}
+
+.profile-section {
+    margin-top: 0; /* Reset margin-top as grid handles spacing */
+    padding: 20px;
+    border: 1px solid var(--border-primary);
+    border-radius: 8px;
+    background-color: var(--bg-tertiary);
+    /* text-align: center; removed as it interferes with grid layout */
+}
+
+.avatar-container {
+    margin: 1rem auto; /* Keep auto margins for centering within its grid cell */
+    width: 150px;
+    height: 150px;
+}
+
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--bg-secondary);
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.profile-avatar-svg {
+    width: 150px;
+    height: 150px;
+}
+
+.avatar-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.error-message {
+    color: var(--button-danger-bg);
+    margin-top: 1rem;
+    grid-column: 1 / -1; /* Ocupar todo el ancho si hay error */
+    text-align: center;
+}
+
+/* Estilos para Gestión de Amigos */
+.friend-management-container h2 {
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.collapsible-section {
+    border-top: 1px solid var(--border-secondary);
+    padding-top: 1rem;
+    margin-top: 1rem;
+}
+
+.collapsible-section:first-of-type {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0;
+}
+
+.collapsible-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.collapsible-header h3 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.count-badge {
+    background-color: var(--button-primary-bg);
+    color: var(--text-on-primary-button);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.collapse-icon {
+    font-size: 1.2rem;
+    transition: transform 0.2s ease;
+}
+
+.collapsible-content {
+    padding-top: 1rem;
+}
+
+.form-container-inline {
+    display: flex;
+    gap: 10px;
+}
+
+.form-container-inline .input-field {
+    margin-bottom: 0;
+}
+
+.form-container-inline .button {
+    width: auto;
+    flex-shrink: 0;
+}

@@ -1,0 +1,68 @@
+/* Estilos para la barra de navegación en móvil (abajo) */
+.navbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background-color: var(--bg-secondary);
+    border-top: 1px solid var(--border-primary);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 -2px 5px var(--shadow-color);
+    z-index: 1000;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: var(--text-secondary);
+    width: 48px; /* Tamaño fijo para el botón */
+    height: 48px; /* Tamaño fijo para el botón */
+    border-radius: 12px; /* Bordes redondeados */
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.nav-item:hover {
+    background-color: var(--bg-hover);
+}
+
+.nav-item.active {
+    color: var(--button-primary-bg);
+    background-color: var(--bg-tertiary);
+}
+
+.nav-icon {
+    font-size: 1.8rem; /* Iconos más grandes */
+}
+
+/* Estilos para la barra de navegación en escritorio (arriba) */
+@media (min-width: 768px) {
+    .navbar {
+        top: 0;
+        bottom: auto;
+        border-top: none;
+        border-bottom: 1px solid var(--border-primary);
+        height: 65px;
+        justify-content: center;
+        gap: 1rem; /* Reducir el espacio */
+    }
+
+    .nav-item {
+        width: 52px; /* Tamaño fijo para el botón */
+        height: 52px; /* Tamaño fijo para el botón */
+        border-radius: 16px; /* Bordes más redondeados */
+    }
+
+    .nav-icon {
+        font-size: 1.5rem; /* Ajustar tamaño de icono para escritorio */
+    }
+
+    /* Ajustar el contenido principal para que no quede oculto debajo de la barra superior */
+    .app-content {
+        padding-top: 65px;
+    }
+}

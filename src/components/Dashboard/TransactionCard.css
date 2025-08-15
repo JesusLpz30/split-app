@@ -1,0 +1,180 @@
+/* src/components/Dashboard/TransactionCard.css */
+
+.transaction-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    overflow: hidden; /* Ensures content respects border-radius */
+}
+
+.transaction-card-header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    cursor: pointer;
+    background-color: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border-secondary);
+    position: relative; /* Added for absolute positioning of alert icon */
+}
+
+.transaction-card-header:hover {
+    background-color: var(--bg-hover);
+}
+
+.alert-icon {
+    color: orange; /* Using orange as a general warning color */
+    font-size: 1.2rem; /* Smaller size */
+    margin: 0 5px; /* Add some horizontal spacing */
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.7; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.card-col-icon {
+    flex: 0 0 30px;
+    text-align: center;
+    font-size: 1.2rem; /* Reduced from 1.5rem */
+}
+
+.card-col-type {
+    flex: 1;
+    font-weight: bold;
+}
+
+.card-col-category {
+    flex: 1;
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+.card-col-payment-method {
+    flex: 0 0 60px; /* Adjust width as needed */
+    text-align: center;
+    font-size: 0.9em;
+    color: var(--text-secondary);
+}
+
+.card-col-date {
+    flex: 0 0 60px; /* Adjust width as needed */
+    text-align: center;
+    font-size: 0.9em;
+    color: var(--text-secondary);
+}
+
+.card-col-amount {
+    flex: 0 0 100px;
+    text-align: right;
+    font-weight: bold;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.card-col-amount.positive { color: var(--balance-positive); }
+.card-col-amount.negative { color: var(--balance-negative); }
+.card-col-amount.neutral { color: var(--text-primary); }
+
+.expand-button {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--text-primary);
+    margin-left: 10px;
+}
+
+.transaction-card-details {
+    padding: 15px;
+    border-top: 1px solid var(--border-secondary);
+}
+
+.transaction-card-details p {
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+
+.card-col-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+/* Re-using existing button-icon styles from App.css */
+.button-icon.accept { color: var(--balance-positive); }
+.button-icon.reject { color: var(--balance-negative); }
+.button-icon.re-request { color: var(--text-primary); }
+
+.status-pending, .status-completed, .status-rejected {
+    font-size: 0.8em;
+    font-weight: bold;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+.status-pending { color: orange; }
+.status-completed { color: green; }
+.status-rejected { color: red; }
+
+.initiator-photo {
+    width: 32px; /* Adjust size as needed */
+    height: 32px; /* Adjust size as needed */
+    border-radius: 50%; /* Makes it circular */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+    margin-right: 10px; /* Add spacing to the right */
+    flex-shrink: 0; /* Prevents it from shrinking */
+}
+
+/* Styles for back-button */
+.back-button {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-primary);
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-bottom: 15px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.back-button:hover {
+    background-color: var(--bg-hover);
+}
+
+/* Styles for filters modal content */
+.filters-modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 10px;
+}
+
+.filters-modal-content select,
+.filters-modal-content input[type="date"] {
+    padding: 10px;
+    border: 1px solid var(--border-primary);
+    border-radius: 5px;
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+    font-size: 1em;
+    width: 100%; /* Full width within the modal */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.filters-modal-content select:focus,
+.filters-modal-content input[type="date"]:focus {
+    border-color: var(--accent-color);
+    outline: none;
+}
+
+/* Styles for modal actions (buttons) */
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}

@@ -1,0 +1,187 @@
+
+.card-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.card-form .input-field,
+.card-form select {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.card-form select.input-field {
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: var(--background-secondary);
+    color: var(--text-primary);
+}
+
+.card-form button {
+    grid-column: 1 / -1;
+}
+
+/* Estilos para el Dropdown con Búsqueda */
+.searchable-dropdown {
+    position: relative;
+}
+
+.dropdown-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--background-secondary, #fff);
+    border: 1px solid var(--border-color, #ccc);
+    border-radius: 5px;
+    list-style: none;
+    padding: 5px 0;
+    margin-top: 5px;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.dropdown-list li {
+    padding: 10px;
+    cursor: pointer;
+    color: var(--text-primary);
+}
+
+.dropdown-list li:hover {
+    background-color: var(--accent-color-translucent, rgba(0, 123, 255, 0.1));
+}
+
+.dropdown-list .no-results {
+    color: var(--text-secondary);
+    font-style: italic;
+    cursor: default;
+}
+
+.cards-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+/* Contenedor del botón "Agregar Tarjeta" */
+.add-card-button-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px; /* Espacio sobre el botón */
+}
+
+.add-card-button-container .button {
+    max-width: 200px; /* Ancho máximo para el botón */
+}
+
+/* Formulario dentro del Modal */
+.card-form-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Diseño de tarjeta */
+.card-item-display {
+    position: relative;
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease, color 0.3s ease;
+    background: var(--card-background, #ffffff);
+    color: var(--card-text-color, #333);
+    border: 1px solid var(--card-border-color, #e0e0e0);
+}
+
+.card-item-display:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+[data-theme='dark'] .card-item-display {
+    background: var(--card-background, #2a2a3a);
+    color: var(--card-text-color, #e0e0e0);
+    border-color: var(--card-border-color, #444);
+}
+
+[data-theme='matrix'] .card-item-display {
+    background: var(--card-background, #021002);
+    color: var(--card-text-color, #00ff41);
+    border-color: var(--card-border-color, #00ff41);
+}
+
+[data-theme='matrix'] .card-brand {
+    color: var(--accent-color, #00ff41);
+}
+
+[data-theme='matrix'] .card-number {
+    color: var(--card-number-color, #00ff41);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.card-bank {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.card-brand {
+    font-size: 1.2rem;
+    font-weight: bold;
+    font-style: italic;
+    color: var(--accent-color, #007bff);
+}
+
+.card-number {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.1rem;
+    text-align: center;
+    letter-spacing: 1.5px;
+    word-break: break-all;
+    color: var(--card-number-color, var(--text-primary));
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+}
+
+.card-type-indicator {
+    font-weight: 600;
+}
+
+.card-delete-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent !important;
+    border: none !important;
+    color: var(--text-secondary) !important;
+    font-size: 1.2rem;
+    padding: 5px !important;
+    border-radius: 50% !important;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.card-item-display:hover .card-delete-btn {
+    opacity: 1;
+    transform: scale(1.1);
+}

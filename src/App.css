@@ -1,0 +1,698 @@
+/* ======================================================================
+   THEME VARIABLES
+   ====================================================================== */
+:root {
+    --bg-primary: #f0f2f5;
+    --bg-secondary: #ffffff;
+    --bg-tertiary: #f9f9f9;
+    --bg-hover: #f7f7f7;
+
+    --text-primary: #1c1e21;
+    --text-secondary: #666666;
+    --text-on-primary-button: #ffffff;
+
+    --border-primary: #ddd;
+    --border-secondary: #eee;
+    --border-input: #ccc;
+
+    --button-primary-bg: #1877f2;
+    --button-secondary-bg: #e4e6eb;
+    --button-secondary-text: #050505;
+    --button-danger-bg: #fa383e;
+
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --modal-overlay-bg: rgba(0, 0, 0, 0.5);
+
+    --balance-positive: green;
+    --balance-negative: red;
+
+    --transition-fast: 0.2s;
+}
+
+body[data-theme='dark'] {
+    --bg-primary: #18191a;
+    --bg-secondary: #242526;
+    --bg-tertiary: #3a3b3c;
+    --bg-hover: #4e4f50;
+
+    --text-primary: #e4e6eb;
+    --text-secondary: #b0b3b8;
+    --text-on-primary-button: #ffffff;
+
+    --border-primary: #3e4042;
+    --border-secondary: #444444;
+    --border-input: #4a4a4a;
+
+    --button-secondary-bg: #4e4f50;
+    --button-secondary-text: #e4e6eb;
+
+    --shadow-color: rgba(255, 255, 255, 0.1);
+    --modal-overlay-bg: rgba(0, 0, 0, 0.7);
+}
+
+/* Invert calendar icon color for dark and matrix themes */
+body[data-theme='dark'] input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+}
+
+body[data-theme='matrix'] {
+    --font-family: 'VT323', monospace;
+
+    --bg-primary: #0d0d0d;
+    --bg-secondary: #1a1a1a;
+    --bg-tertiary: #222222;
+    --bg-hover: #333333;
+
+    --text-primary: #00ff41;
+    --text-secondary: #00b32d;
+    --text-on-primary-button: #0d0d0d;
+
+    --border-primary: #00ff41;
+    --border-secondary: #008020;
+    --border-input: #00ff41;
+
+    --button-primary-bg: #00ff41;
+    --button-secondary-bg: #222222;
+    --button-secondary-text: #00ff41;
+    --button-danger-bg: #ff0000;
+
+    --shadow-color: rgba(0, 255, 65, 0.2);
+    --modal-overlay-bg: rgba(0, 20, 0, 0.7);
+
+    --balance-positive: #00ff41;
+    --balance-negative: #ff0000;
+}
+
+/* Calendar icon color for matrix theme */
+body[data-theme='matrix'] input[type="date"]::-webkit-calendar-picker-indicator {
+    color: var(--text-primary);
+}
+
+/* ======================================================================
+   GENERAL STYLES
+   ====================================================================== */
+body {
+    font-family: var(--font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif);
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 20px;
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.center-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    text-align: center;
+}
+
+.card {
+    padding: 40px;
+}
+
+.app-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-primary);
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-greeting {
+    font-weight: bold;
+}
+
+/* ======================================================================
+   LIST STYLES
+   ====================================================================== */
+.list {
+    list-style: none;
+    padding: 0;
+}
+
+.list-item-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid var(--border-primary);
+    border-radius: 6px;
+    margin-bottom: 10px;
+    transition: background-color var(--transition-fast);
+}
+
+.list-item-group:hover {
+    background-color: var(--bg-hover);
+}
+
+.group-name {
+    flex-grow: 1;
+    cursor: pointer;
+}
+
+.group-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.list-item-expense {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-bottom: 1px solid var(--border-secondary);
+}
+
+.expense-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.paid-by {
+    font-size: 0.8em;
+    color: var(--text-secondary);
+}
+
+.expense-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.list-item-member {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+}
+
+/* ======================================================================
+   FORM STYLES
+   ====================================================================== */
+.form-container,
+.form-container-inline {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid var(--border-primary);
+    border-radius: 8px;
+    background-color: var(--bg-tertiary);
+}
+
+.input-field {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid var(--border-input);
+    border-radius: 4px;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.participants-selection {
+    margin-bottom: 15px;
+}
+
+.participants-selection label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.participant-checkbox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.participant-checkbox input[type="checkbox"] {
+    margin-right: 10px;
+    width: auto;
+}
+
+/* ======================================================================
+   BUTTON STYLES
+   ====================================================================== */
+.button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%; /* Make button fill container width */
+    /* Removed margin: 5px; as it will be handled by container */
+    transition: opacity var(--transition-fast);
+    display: flex; /* Enable flexbox for internal alignment */
+    align-items: center; /* Vertically center content */
+    justify-content: center; /* Horizontally center content */
+    gap: 8px; /* Space between text and icon */
+}
+
+.button:hover {
+    opacity: 0.8;
+}
+
+.button.primary {
+    background-color: var(--button-primary-bg);
+    color: var(--text-on-primary-button);
+}
+
+.button.secondary {
+    background-color: var(--button-secondary-bg);
+    color: var(--button-secondary-text);
+}
+
+.button.danger {
+    background-color: var(--button-danger-bg);
+    color: var(--text-on-primary-button);
+}
+
+.button-icon {
+    background: none;
+    border: none;
+    font-size: 1rem; /* Reduced from 1.2rem */
+    padding: 5px;
+    color: var(--text-primary); /* Explicitly set color to theme's primary text */
+}
+
+.select-all-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.select-all-buttons button {
+    flex: 1;
+}
+
+/* ======================================================================
+   DASHBOARD STYLES
+   ====================================================================== */
+.dashboard-content-grid {
+    display: grid;
+    gap: 30px;
+}
+
+@media (min-width: 768px) {
+    .dashboard-content-grid {
+        grid-template-columns: 1fr; /* Stack on tablets */
+    }
+}
+
+@media (min-width: 1024px) {
+    .dashboard-content-grid {
+        grid-template-columns: 1fr 2fr; /* Two columns on PC: summary/actions on left, transaction list on right */
+    }
+}
+
+.dashboard-summary-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.dashboard-actions-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dashboard-transaction-list {
+    /* No specific styles needed here, it will take up its grid space */
+}
+
+/* Remove old dashboard styles */
+/*
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 30px;
+}
+
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+}
+
+.button-group-container {
+    margin-bottom: 10px;
+}
+*/
+
+/* ======================================================================
+   BALANCE STYLES
+   ====================================================================== */
+.balance-container {
+    padding: 20px;
+    border: 1px solid var(--border-primary);
+    border-radius: 8px;
+    background-color: var(--bg-tertiary);
+}
+
+.balance-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.list-item-balance {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    padding: 8px;
+}
+
+.list-item-balance.positive .balance-amount {
+    color: var(--balance-positive);
+}
+
+.list-item-balance.negative .balance-amount {
+    color: var(--balance-negative);
+}
+
+/* ======================================================================
+   MODAL STYLES
+   ====================================================================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--modal-overlay-bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: var(--bg-secondary);
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-secondary);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.modal-close-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-primary);
+}
+
+/* ======================================================================
+   FILTERS CONTROLS
+   ====================================================================== */
+.filters-controls {
+    margin-bottom: 15px;
+}
+
+.filter-modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.filter-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.filter-select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border-input);
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.balance-summary-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid var(--border-primary);
+    border-radius: 8px;
+    background-color: var(--bg-tertiary);
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.balance-summary-section h2 {
+    text-align: center;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+}
+
+.balance-summary-section .total-balance {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.balance-summary-section .total-balance.positive {
+    color: var(--balance-positive);
+}
+
+.balance-summary-section .total-balance.negative {
+    color: var(--balance-negative);
+}
+
+.balance-summary-section .owes-me,
+.balance-summary-section .i-owe {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid var(--border-secondary);
+    border-radius: 6px;
+    background-color: var(--bg-secondary);
+}
+
+.balance-summary-section .owes-me h3,
+.balance-summary-section .i-owe h3 {
+    font-size: 1.1em;
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
+
+.balance-summary-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.balance-summary-section li {
+    padding: 5px 0;
+    border-bottom: 1px dashed var(--border-secondary);
+    color: var(--text-secondary);
+}
+
+.balance-summary-section li:last-child {
+    border-bottom: none;
+}
+
+.balance-summary-section .personal-space-link {
+    text-align: center;
+    margin-top: 25px;
+}
+
+/* ======================================================================
+   REACT DATEPICKER STYLES
+   ====================================================================== */
+.react-datepicker-popper {
+    z-index: 2000; /* Ensure it's above modals */
+}
+
+.react-datepicker {
+    font-family: var(--font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif);
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    color: var(--text-primary);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+.react-datepicker__header {
+    background-color: var(--bg-tertiary);
+    border-bottom: 1px solid var(--border-secondary);
+    color: var(--text-primary);
+}
+
+.react-datepicker__current-month,
+.react-datepicker-time__header,
+.react-datepicker-year-header {
+    color: var(--text-primary);
+}
+
+.react-datepicker__navigation {
+    color: var(--text-primary);
+}
+
+.react-datepicker__navigation--previous {
+    border-right-color: var(--text-primary);
+}
+
+.react-datepicker__navigation--next {
+    border-left-color: var(--text-primary);
+}
+
+.react-datepicker__day-name {
+    color: var(--text-secondary);
+}
+
+.react-datepicker__day {
+    color: var(--text-primary);
+}
+
+.react-datepicker__day--selected,
+.react-datepicker__day--keyboard-selected {
+    background-color: var(--button-primary-bg);
+    color: var(--text-on-primary-button);
+}
+
+.react-datepicker__day--outside-month {
+    color: var(--text-secondary);
+}
+
+/* Dark Theme Overrides */
+body[data-theme='dark'] .react-datepicker {
+    background-color: var(--bg-secondary);
+    border-color: var(--border-primary);
+    color: var(--text-primary);
+}
+
+body[data-theme='dark'] .react-datepicker__header {
+    background-color: var(--bg-tertiary);
+    border-bottom-color: var(--border-secondary);
+    color: var(--text-primary);
+}
+
+body[data-theme='dark'] .react-datepicker__current-month,
+body[data-theme='dark'] .react-datepicker-time__header,
+body[data-theme='dark'] .react-datepicker-year-header {
+    color: var(--text-primary);
+}
+
+body[data-theme='dark'] .react-datepicker__navigation {
+    color: var(--text-primary);
+}
+
+body[data-theme='dark'] .react-datepicker__navigation--previous {
+    border-right-color: var(--text-primary);
+}
+
+body[data-theme='dark'] .react-datepicker__navigation--next {
+    border-left-color: var(--text-primary);
+}
+
+body[data-theme='dark'] .react-datepicker__day-name {
+    color: var(--text-secondary);
+}
+
+body[data-theme='dark'] .react-datepicker__day {
+    color: var(--text-primary);
+}
+
+body[data-theme='dark'] .react-datepicker__day--selected,
+body[data-theme='dark'] .react-datepicker__day--keyboard-selected {
+    background-color: var(--button-primary-bg);
+    color: var(--text-on-primary-button);
+}
+
+body[data-theme='dark'] .react-datepicker__day--outside-month {
+    color: var(--text-secondary);
+}
+
+/* Matrix Theme Overrides */
+body[data-theme='matrix'] .react-datepicker {
+    background-color: var(--bg-secondary);
+    border-color: var(--border-primary);
+    color: var(--text-primary);
+}
+
+body[data-theme='matrix'] .react-datepicker__header {
+    background-color: var(--bg-tertiary);
+    border-bottom-color: var(--border-secondary);
+    color: var(--text-primary);
+}
+
+body[data-theme='matrix'] .react-datepicker__current-month,
+body[data-theme='matrix'] .react-datepicker-time__header,
+body[data-theme='matrix'] .react-datepicker-year-header {
+    color: var(--text-primary);
+}
+
+body[data-theme='matrix'] .react-datepicker__navigation {
+    color: var(--text-primary);
+}
+
+body[data-theme='matrix'] .react-datepicker__navigation--previous {
+    border-right-color: var(--text-primary);
+}
+
+body[data-theme='matrix'] .react-datepicker__navigation--next {
+    border-left-color: var(--text-primary);
+}
+
+body[data-theme='matrix'] .react-datepicker__day-name {
+    color: var(--text-secondary);
+}
+
+body[data-theme='matrix'] .react-datepicker__day {
+    color: var(--text-primary);
+}
+
+body[data-theme='matrix'] .react-datepicker__day--selected,
+body[data-theme='matrix'] .react-datepicker__day--keyboard-selected {
+    background-color: var(--button-primary-bg);
+    color: var(--text-on-primary-button);
+}
+
+body[data-theme='matrix'] .react-datepicker__day--outside-month {
+    color: var(--text-secondary);
+}
+
+.select-all-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.select-all-buttons button {
+    flex: 1;
+}
+
