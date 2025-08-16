@@ -4,7 +4,7 @@ import { uploadProfileImage } from '../../firebase/storageService';
 import { updateUserProfilePhoto, updateUserProfileDisplayName, deleteUserAccount } from '../../firebase/authService';
 import ConfirmModal from '../Layout/ConfirmModal';
 import Modal from '../Layout/Modal'; // Import Modal
-// import FriendManagement from './FriendManagement'; // Removed
+import FriendManagement from './FriendManagement';
 import MyCards from './MyCards';
 import InfoTooltip from '../Layout/InfoTooltip';
 import { useAlert } from '../../context/alertUtils';
@@ -82,21 +82,7 @@ const Profile = () => {
         }
     };
 
-    const handleDeleteAccount = async () => {
-        setLoading(true);
-        setError('');
-        try {
-            await deleteUserAccount();
-            showAlert('Cuenta eliminada con éxito.', 'success');
-        } catch (err) {
-            console.error("Error deleting account:", err);
-            setError('Error al eliminar la cuenta.');
-            showAlert('Error al eliminar la cuenta.', 'error');
-        } finally {
-            setLoading(false);
-            setIsConfirmDeleteModalOpen(false);
-        }
-    };
+    
 
     const handleCopyShareLink = () => {
         navigator.clipboard.writeText(shareLink);
@@ -133,24 +119,13 @@ const Profile = () => {
                 </div>
             </div>
 
-            {/* <FriendManagement /> */}
+            <FriendManagement />
 
             <MyCards />
 
-            <div className="profile-section">
-                <h3>Gestión de Cuenta <InfoTooltip text="Aquí puedes gestionar opciones avanzadas de tu cuenta, incluyendo la eliminación permanente de tu perfil y todos los datos asociados." /></h3>
-                <button onClick={() => setIsConfirmDeleteModalOpen(true)} className="button danger" disabled={loading}>
-                    Eliminar Cuenta
-                </button>
-            </div>
+            
 
-            <ConfirmModal 
-                isOpen={isConfirmDeleteModalOpen}
-                onClose={() => setIsConfirmDeleteModalOpen(false)}
-                onConfirm={handleDeleteAccount}
-                title="Confirmar Eliminación de Cuenta"
-                message="¿Estás seguro de que quieres eliminar tu cuenta? Esta acción es irreversible y eliminará todos tus datos."
-            />
+            
 
             {/* Modal de Compartir Perfil */}
             <Modal isOpen={isShareModalOpen} onClose={() => setIsShareModalOpen(false)} title="Compartir Perfil">

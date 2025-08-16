@@ -6,6 +6,7 @@ import { collection, addDoc, getDocs, deleteDoc, doc, query, where } from 'fireb
 import { banks, getCardTypeByNumber } from '../../firebase/banks';
 import Modal from '../Layout/Modal';
 // import ConfirmModal from '../Layout/ConfirmModal'; // No longer needed
+import { FaEdit, FaShareAlt, FaTrash } from 'react-icons/fa'; // Import icons
 import './MyCards.css';
 
 // --- Componente de Tarjeta de Crédito (Visual) ---
@@ -38,18 +39,12 @@ const CreditCard = ({ card, onEdit, onShare, onDelete }) => {
                     </div>
                     <div className="card-type-indicator">{card.cardType}</div>
                 </div>
-                <div className="card-item-display card-back">
-                    <div className="card-back-content">
-                        <h4>Opciones de Tarjeta</h4>
-                        <button className="button primary" onClick={(e) => { e.stopPropagation(); onEdit(card); }}>
-                            Editar
-                        </button>
-                        <button className="button secondary" onClick={(e) => { e.stopPropagation(); onShare(card); }}>
-                            Compartir
-                        </button>
-                        <button className="button danger" onClick={(e) => { e.stopPropagation(); onDelete(card.id); }}>
-                            Eliminar
-                        </button>
+                <div className={`card-item-display card-back ${cardBrand.toLowerCase()}`}>
+                    <div className="magnetic-stripe"></div>
+                    <div className="card-back-actions">
+                        <FaEdit className="card-action-icon" onClick={(e) => { e.stopPropagation(); onEdit(card); }} />
+                        <FaShareAlt className="card-action-icon" onClick={(e) => { e.stopPropagation(); onShare(card); }} />
+                        <FaTrash className="card-action-icon" onClick={(e) => { e.stopPropagation(); onDelete(card.id); }} />
                     </div>
                 </div>
             </div>

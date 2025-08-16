@@ -113,56 +113,68 @@
 .card-front {
     background-color: var(--bg-secondary); /* Use theme background */
     color: var(--text-primary); /* Use theme text color */
+    align-items: flex-start; /* Align items to the start (left) */
 }
 
 /* Card Back specific styles */
 .card-back {
-    background-color: var(--bg-tertiary); /* Slightly different background for back */
     color: var(--text-primary);
     transform: rotateY(180deg); /* Initially hidden */
     display: flex;
+    flex-direction: column; /* Changed to column to stack stripe and actions */
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; /* Align items to the start to make space for stripe */
+    padding-top: 20px; /* Add padding for the stripe */
+    position: relative; /* For absolute positioning of stripe */
 }
 
-.card-back-content {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: 80%; /* Adjust width of buttons */
-}
-
-.card-back-content h4 {
-    margin-top: 0;
-    margin-bottom: 15px;
-    color: var(--text-primary);
-}
-
-/* Ensure buttons on back are styled correctly */
-.card-back-content .button {
+/* Magnetic Stripe */
+.magnetic-stripe {
     width: 100%;
-    padding: 10px 15px;
-    font-size: 1em;
+    height: 40px; /* Height of the stripe */
+    background-color: #333; /* Dark color for the stripe */
+    position: absolute;
+    top: 20px; /* Position from the top of the card */
+    left: 0;
+    border-radius: 4px; /* Slightly rounded corners */
 }
 
-/* Existing .card-item-display styles should be applied to .card-front */
-/* You might need to review .card-item-display and ensure it's compatible with .card-front */
-/* For example, if .card-item-display has fixed width/height, it should be moved to .card-container-3d */
-
-/* Existing .card-item-display styles (adjust if necessary) */
-.card-item-display {
-    /* Keep existing styles that define the look of the card */
-    /* Ensure no fixed width/height here, as it's handled by .card-container-3d */
-    /* Example: */
-    /* border: 1px solid #ccc; */
-    /* border-radius: 8px; */
-    /* overflow: hidden; */
+.card-back-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 30px; /* Increased gap for better spacing between icons */
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 80px; /* Adjust margin to move icons below the stripe */
 }
 
-/* Adjust card-item-display to be more flexible within the flip container */
-.card-item-display {
-    /* Remove fixed width/height if present */
-    /* Ensure padding and content layout are flexible */
+.card-action-icon {
+    font-size: 1.4em; /* Adjusted size for icons */
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.card-action-icon:hover {
+    color: var(--accent-color); /* Example hover effect */
+    transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+/* Specific brand colors for card back (same as front) */
+.visa {
+    background-color: #1a1f71;
+    color: white;
+}
+
+.mastercard {
+    background-color: #eb001b;
+    color: white;
+}
+
+.american.express {
+    background-color: #2e77bb;
+    color: white;
 }
 
 /* Specific styles for card elements */
@@ -191,6 +203,7 @@
     font-size: 1.4em;
     letter-spacing: 2px;
     margin: 15px 0;
+    text-align: center; /* Ensure card number is centered */
 }
 
 .card-holder {
@@ -228,4 +241,71 @@
 .american.express {
     /* background-color: #2e77bb; */
     /* color: white; */
+}
+
+/* Card Front specific styles (inherits from .card-item-display) */
+.card-front {
+    background-color: var(--bg-secondary); /* Use theme background */
+    color: var(--text-primary); /* Use theme text color */
+}
+
+/* Card Back specific styles */
+.card-back {
+    color: var(--text-primary);
+    transform: rotateY(180deg); /* Initially hidden */
+    display: flex;
+    flex-direction: column; /* Changed to column to stack stripe and actions */
+    align-items: center;
+    justify-content: flex-start; /* Align items to the start to make space for stripe */
+    padding-top: 20px; /* Add padding for the stripe */
+    position: relative; /* For absolute positioning of stripe */
+}
+
+/* Magnetic Stripe */
+.magnetic-stripe {
+    width: 100%;
+    height: 40px; /* Height of the stripe */
+    background-color: #333; /* Dark color for the stripe */
+    position: absolute;
+    top: 20px; /* Position from the top of the card */
+    left: 0;
+    border-radius: 4px; /* Slightly rounded corners */
+}
+
+.card-back-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 20px; /* Increased gap for better spacing between icons */
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 80px; /* Adjust margin to move icons below the stripe */
+}
+
+.card-action-icon {
+    font-size: 1.8em; /* Adjusted size for icons */
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.card-action-icon:hover {
+    color: var(--accent-color); /* Example hover effect */
+    transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+/* Specific brand colors for card back (same as front) */
+.visa {
+    background-color: #1a1f71;
+    color: white;
+}
+
+.mastercard {
+    background-color: #eb001b;
+    color: white;
+}
+
+.american.express {
+    background-color: #2e77bb;
+    color: white;
 }

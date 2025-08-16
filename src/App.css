@@ -754,3 +754,33 @@ body[data-theme='vintage-light'] input[type="date"]::-webkit-calendar-picker-ind
     filter: none; /* Reset filter, let color be determined by text-primary */
     color: var(--text-primary);
 }
+
+/* Styles for large screens (>= 1000px) */
+.large-screen-layout {
+    display: grid;
+    grid-template-columns: 2fr 1fr; /* Main content on left, sidebar on right */
+    gap: 20px;
+    padding: 20px;
+    align-items: start;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.main-content-column {
+    /* Styles for the main content column */
+}
+
+.sidebar-column {
+    /* Styles for the sidebar column */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.app-name {
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+}
