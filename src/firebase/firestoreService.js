@@ -634,3 +634,59 @@ export const deleteUserData = async (uid) => {
     // 8. Ejecutar todas las operaciones en un lote
     await batch.commit();
 };
+
+// --- SAVINGS GOAL FUNCTIONS ---
+
+export const addSavingsGoal = async (goalData) => {
+    try {
+        const docRef = await addDoc(collection(db, 'savingsGoals'), {
+            ...goalData,
+            createdAt: serverTimestamp(),
+        });
+        return docRef.id;
+    } catch (error) {
+        console.error("Error adding savings goal:", error);
+        throw error;
+    }
+};
+
+export const getSavingsGoals = async (userId) => {
+    try {
+        const q = query(
+            collection(db, 'savingsGoals'),
+            where('userId', '==', userId),
+            orderBy('createdAt', 'asc')
+        );
+        const querySnapshot = await getDocs(q);
+        return querySnapshot.docs.map(doc => ({
+            id: doc.id,
+            ...doc.data()
+        }));
+    } catch (error) {
+        console.error("Error getting savings goals:", error);
+        throw error;
+    }
+};
+
+export const updateSavingsGoal = async (goalId, newData) => {
+    try {
+        const goalRef = doc(db, 'savingsGoals', goalId);
+        await updateDoc(goalRef, {
+            ...newData,
+            updatedAt: serverTimestamp()
+        });
+    } catch (error) {
+        console.error("Error updating savings goal:", error);
+        throw error;
+    }
+};
+
+export const deleteSavingsGoal = async (goalId) => {
+    try {
+        const goalRef = doc(db, 'savingsGoals', goalId);
+        await deleteDoc(goalRef);
+    } catch (error) {
+        console.error("Error deleting savings goal:", error);
+        throw error;
+    }
+};

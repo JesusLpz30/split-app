@@ -1,14 +1,10 @@
 import React, { useEffect } from 'react';
-import { AuthProvider } from './context/AuthContext';
-import { GroupProvider } from './context/GroupContext';
-import { ThemeProvider } from './context/ThemeContext';
 import { useTheme } from './context/themeUtils';
-import { AlertProvider } from './context/AlertContext';
 import AppRouter from './router';
 import { startMatrixRain, stopMatrixRain } from './animations/matrixRain';
 import './App.css';
 
-function AppContent() {
+function App() {
     const { theme } = useTheme();
 
     useEffect(() => {
@@ -28,20 +24,6 @@ function AppContent() {
         <>
             <AppRouter />
         </>
-    );
-}
-
-function App() {
-    return (
-        <AuthProvider>
-            <GroupProvider>
-                <ThemeProvider>
-                    <AlertProvider>
-                        <AppContent />
-                    </AlertProvider>
-                </ThemeProvider>
-            </GroupProvider>
-        </AuthProvider>
     );
 }
 

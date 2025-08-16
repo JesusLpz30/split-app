@@ -15,14 +15,20 @@ const TransactionForm = ({ onFormSubmit, existingTransaction, isPersonalGroup })
     const [selectedRecipient, setSelectedRecipient] = useState('');
     const [categoryInput, setCategoryInput] = useState('');
     const [suggestedCategories, setSuggestedCategories] = useState([]);
+    const [suggestedPaymentMethods, setSuggestedPaymentMethods] = useState([]); // New state for suggested payment methods
     const [paymentMethod, setPaymentMethod] = useState(''); // New state for payment method
+    const [isInvestment, setIsInvestment] = useState(false); // New state for investment flag
+    const [investmentPlatform, setInvestmentPlatform] = useState(''); // New state for investment platform
+    const [investmentInitialAmount, setInvestmentInitialAmount] = useState(''); // New state for initial investment amount
+    const [investmentCurrentValue, setInvestmentCurrentValue] = useState(''); // New state for current investment value
     const [error, setError] = useState('');
 
     useEffect(() => {
         if (!currentUser) return;
 
-        const fetchUniqueDescriptions = async () => {
+        const fetchUniqueData = async () => {
             const uniqueDescriptions = new Set();
+            const uniquePaymentMethods = new Set();
 
             const groupsQuery = query(collection(db, 'groups'), where('members', 'array-contains', currentUser.uid));
             const groupsSnapshot = await getDocs(groupsQuery);
@@ -35,6 +41,9 @@ const TransactionForm = ({ onFormSubmit, existingTransaction, isPersonalGroup })
                     if (data.description) {
                         uniqueDescriptions.add(data.description);
                     }
+                    if (data.paymentMethod) {
+                        uniquePaymentMethods.add(data.paymentMethod);
+                    }
                 });
             }
 
@@ -45,12 +54,16 @@ const TransactionForm = ({ onFormSubmit, existingTransaction, isPersonalGroup })
                 if (data.description) {
                     uniqueDescriptions.add(data.description);
                 }
+                if (data.paymentMethod) {
+                    uniquePaymentMethods.add(data.paymentMethod);
+                }
             });
 
             setSuggestedCategories(Array.from(uniqueDescriptions));
+            setSuggestedPaymentMethods(Array.from(uniquePaymentMethods));
         };
 
-        fetchUniqueDescriptions();
+        fetchUniqueData();
     }, [currentUser]);
 
     useEffect(() => {
@@ -70,6 +83,13 @@ const TransactionForm = ({ onFormSubmit, existingTransaction, isPersonalGroup })
             if (existingTransaction.paymentMethod) {
                 setPaymentMethod(existingTransaction.paymentMethod);
             }
+            // Set investment fields for existing transaction
+            if (existingTransaction.isInvestment) {
+                setIsInvestment(existingTransaction.isInvestment);
+                setInvestmentPlatform(existingTransaction.investmentPlatform || '');
+                setInvestmentInitialAmount(existingTransaction.investmentInitialAmount || '');
+                setInvestmentCurrentValue(existingTransaction.investmentCurrentValue || '');
+            }
         } else {
             setDescription('');
             setAmount('');
@@ -77,6 +97,10 @@ const TransactionForm = ({ onFormSubmit, existingTransaction, isPersonalGroup })
             setSelectedRecipient('');
             setCategoryInput('');
             setPaymentMethod(''); // Reset payment method for new transaction
+            setIsInvestment(false);
+            setInvestmentPlatform('');
+            setInvestmentInitialAmount('');
+            setInvestmentCurrentValue('');
         }
     }, [existingTransaction]);
 
@@ -99,6 +123,17 @@ const TransactionForm = ({ onFormSubmit, existingTransaction, isPersonalGroup })
             categoryName: categoryInput.trim() || description.trim(),
             paymentMethod: paymentMethod, // Add payment method
         };
+
+        if (isInvestment) {
+            if (!investmentPlatform.trim() || !investmentInitialAmount || parseFloat(investmentInitialAmount) <= 0) {
+                setError("Por favor, completa la plataforma y el monto inicial de la inversión.");
+                return;
+            }
+            transactionData.isInvestment = true;
+            transactionData.investmentPlatform = investmentPlatform.trim();
+            transactionData.investmentInitialAmount = parseFloat(investmentInitialAmount);
+            transactionData.investmentCurrentValue = parseFloat(investmentCurrentValue) || parseFloat(investmentInitialAmount);
+        }
 
         if (!existingTransaction) {
             switch (transactionType) {
@@ -170,7 +205,11 @@ const TransactionForm = ({ onFormSubmit, existingTransaction, isPersonalGroup })
                     description: transactionData.description,
                     amount: transactionData.amount,
                     categoryName: transactionData.categoryName,
-                    paymentMethod: transactionData.paymentMethod, // Update payment method
+                    paymentMethod: transactionData.paymentMethod,
+                    isInvestment: transactionData.isInvestment,
+                    investmentPlatform: transactionData.investmentPlatform,
+                    investmentInitialAmount: transactionData.investmentInitialAmount,
+                    investmentCurrentValue: transactionData.investmentCurrentValue,
                 });
             } else {
                 await addTransaction(currentGroup.id, transactionData);
@@ -282,21 +321,68 @@ const TransactionForm = ({ onFormSubmit, existingTransaction, isPersonalGroup })
                 </>
             )}
 
+            <div className="checkbox-container">
+                <input
+                    type="checkbox"
+                    id="isInvestment"
+                    checked={isInvestment}
+                    onChange={(e) => setIsInvestment(e.target.checked)}
+                />
+                <label htmlFor="isInvestment">¿Es una inversión?</label>
+            </div>
+
+            {isInvestment && (
+                <>
+                    <label htmlFor="investmentPlatform">Plataforma de Inversión</label>
+                    <input
+                        id="investmentPlatform"
+                        type="text"
+                        value={investmentPlatform}
+                        onChange={(e) => setInvestmentPlatform(e.target.value)}
+                        placeholder="Ej: GBM, Bitso, CetesDirecto"
+                        className="input-field"
+                        required
+                    />
+
+                    <label htmlFor="investmentInitialAmount">Monto Inicial Invertido</label>
+                    <input
+                        id="investmentInitialAmount"
+                        type="number"
+                        value={investmentInitialAmount}
+                        onChange={(e) => setInvestmentInitialAmount(e.target.value)}
+                        placeholder="Monto inicial"
+                        className="input-field"
+                        required
+                    />
+
+                    <label htmlFor="investmentCurrentValue">Valor Actual (opcional)</label>
+                    <input
+                        id="investmentCurrentValue"
+                        type="number"
+                        value={investmentCurrentValue}
+                        onChange={(e) => setInvestmentCurrentValue(e.target.value)}
+                        placeholder="Valor actual de la inversión"
+                        className="input-field"
+                    />
+                </>
+            )}
+
             <label htmlFor="paymentMethod">Método de Pago</label>
-            <select
+            <input
                 id="paymentMethod"
-                className="input-field"
+                type="text"
+                list="payment-method-suggestions"
                 value={paymentMethod}
                 onChange={(e) => setPaymentMethod(e.target.value)}
+                placeholder="Escribe o selecciona un método"
+                className="input-field"
                 required
-            >
-                <option value="">Selecciona un método</option>
-                <option value="Efectivo">Efectivo</option>
-                <option value="Tarjeta de Crédito">Tarjeta de Crédito</option>
-                <option value="Tarjeta de Débito">Tarjeta de Débito</option>
-                <option value="Transferencia">Transferencia</option>
-                <option value="Otro">Otro</option>
-            </select>
+            />
+            <datalist id="payment-method-suggestions">
+                {suggestedPaymentMethods.map((method, index) => (
+                    <option key={index} value={method} />
+                ))}
+            </datalist>
 
             <button type="submit" className="button primary">
                 {existingTransaction ? 'Guardar Cambios' : 'Registrar Transacción'}
