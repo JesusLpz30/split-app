@@ -11,15 +11,12 @@ const TransactionCard = ({
     onAcceptTransaction,
     onRejectTransaction,
     onReRequestTransaction,
-    onArchiveTransaction // New prop
+    onArchiveTransaction, // New prop
+    isExpanded, // Controlled by parent
+    onToggleExpand // Controlled by parent
 }) => {
     const { currentUser } = useAuth();
     const { currentGroup } = useGroup();
-    const [isExpanded, setIsExpanded] = useState(false);
-
-    const toggleExpand = () => {
-        setIsExpanded(!isExpanded);
-    };
 
     let IconComponent = null; // Use a component directly
     let typeText = '';
@@ -86,7 +83,7 @@ const TransactionCard = ({
 
     return (
         <li className="transaction-card">
-            <div className="transaction-card-header" onClick={toggleExpand}>
+            <div className="transaction-card-header" onClick={() => onToggleExpand(transaction.id)}>
                 {initiator?.photoURL && (
                     <img src={initiator.photoURL} alt={initiator.displayName} className="initiator-photo" />
                 )}

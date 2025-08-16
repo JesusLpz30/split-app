@@ -142,3 +142,15 @@ input:checked + .slider:before {
     gap: 1rem;
     margin-top: 1.5rem;
 }
+
+.settings-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.settings-links .button {
+    width: 100%;
+    text-align: center;
+}

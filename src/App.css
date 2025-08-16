@@ -20,7 +20,7 @@
     --button-secondary-text: #050505;
     --button-danger-bg: #fa383e;
 
-    --shadow-color: rgba(0, 0, 0, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.15); /* Increased intensity */
     --modal-overlay-bg: rgba(0, 0, 0, 0.5);
 
     --balance-positive: green;
@@ -46,7 +46,7 @@ body[data-theme='dark'] {
     --button-secondary-bg: #4e4f50;
     --button-secondary-text: #e4e6eb;
 
-    --shadow-color: rgba(255, 255, 255, 0.1);
+    --shadow-color: rgba(255, 255, 255, 0.15); /* Increased intensity */
     --modal-overlay-bg: rgba(0, 0, 0, 0.7);
 }
 
@@ -76,7 +76,7 @@ body[data-theme='matrix'] {
     --button-secondary-text: #00ff41;
     --button-danger-bg: #ff0000;
 
-    --shadow-color: rgba(0, 255, 65, 0.2);
+    --shadow-color: rgba(0, 255, 65, 0.3); /* Increased intensity */
     --modal-overlay-bg: rgba(0, 20, 0, 0.7);
 
     --balance-positive: #00ff41;
@@ -106,7 +106,7 @@ body {
     padding: 20px;
     background-color: var(--bg-secondary);
     border-radius: 8px;
-    box-shadow: 0 2px 4px var(--shadow-color);
+    box-shadow: 0 5px 15px var(--shadow-color); /* Updated shadow */
 }
 
 .center-screen {
@@ -214,6 +214,7 @@ body {
     border: 1px solid var(--border-primary);
     border-radius: 8px;
     background-color: var(--bg-tertiary);
+    box-shadow: 0 5px 15px var(--shadow-color); /* Updated shadow */
 }
 
 .input-field {
@@ -367,6 +368,7 @@ body {
     border: 1px solid var(--border-primary);
     border-radius: 8px;
     background-color: var(--bg-tertiary);
+    box-shadow: 0 5px 15px var(--shadow-color); /* Updated shadow */
 }
 
 .balance-header {
@@ -413,7 +415,13 @@ body {
     border-radius: 8px;
     width: 90%;
     max-width: 500px;
-    box-shadow: 0 5px 15px var(--shadow-color);
+    box-shadow: 0 5px 15px var(--shadow-color); /* Updated shadow */
+}
+
+.modal-body {
+    max-height: 70vh; /* Adjust as needed */
+    overflow-y: auto;
+    padding-right: 10px; /* Add some padding for the scrollbar */
 }
 
 .modal-header {
@@ -468,7 +476,7 @@ body {
     border: 1px solid var(--border-primary);
     border-radius: 8px;
     background-color: var(--bg-tertiary);
-    box-shadow: 0 2px 4px var(--shadow-color);
+    box-shadow: 0 5px 15px var(--shadow-color); /* Updated shadow */
 }
 
 .balance-summary-section h2 {
@@ -501,8 +509,7 @@ body {
     background-color: var(--bg-secondary);
 }
 
-.balance-summary-section .owes-me h3,
-.balance-summary-section .i-owe h3 {
+.balance-summary-section h3 {
     font-size: 1.1em;
     margin-top: 0;
     margin-bottom: 10px;
@@ -543,7 +550,7 @@ body {
     border: 1px solid var(--border-primary);
     color: var(--text-primary);
     border-radius: 8px;
-    box-shadow: 0 2px 10px var(--shadow-color);
+    box-shadow: 0 5px 15px var(--shadow-color); /* Updated shadow */
 }
 
 .react-datepicker__header {
@@ -696,3 +703,54 @@ body[data-theme='matrix'] .react-datepicker__day--outside-month {
     flex: 1;
 }
 
+/* Vintage Light Theme */
+body[data-theme='vintage-light'] {
+    --font-family: 'Lora', serif; /* Body font */
+
+    --bg-primary: #FDF7F7; /* Very light, almost white, with a hint of pink */
+    --bg-secondary: #FFFFFF; /* Pure white for cards/modals */
+    --bg-tertiary: #FFF0F5; /* Lavender Blush - soft pinkish white */
+    --bg-hover: #F5E0E6; /* Lighter pink for hover */
+
+    --text-primary: #5C4033; /* Dark brown for primary text, vintage feel */
+    --text-secondary: #8B735C; /* Medium brown for secondary text */
+    --text-on-primary-button: #FFFFFF; /* White text on primary buttons */
+
+    --border-primary: #D8BFD8; /* Thistle - muted purple-pink border */
+    --border-secondary: #E6E6FA; /* Lavender - very light purple-blue */
+    --border-input: #C0C0B0; /* Still a muted grey-brown for input borders */
+
+    --button-primary-bg: #C8E6C9; /* Pastel Vintage Green */
+    --button-secondary-bg: #F8BBD0; /* Pastel Vintage Pink */
+    --button-secondary-text: #5C4033; /* Dark brown text on secondary button */
+    --button-danger-bg: #E9967A; /* Dark Salmon - muted reddish-orange for danger */
+
+    --shadow-color: rgba(0, 0, 0, 0.1); /* Slightly more pronounced shadow for vintage */
+    --modal-overlay-bg: rgba(0, 0, 0, 0.3); /* Lighter overlay */
+
+    --balance-positive: #8BC34A; /* Light Green for positive balance */
+    --balance-negative: #EF5350; /* Red for negative balance */
+}
+
+/* Apply Playfair Display to headings within vintage-light theme */
+body[data-theme='vintage-light'] h1, 
+body[data-theme='vintage-light'] h2, 
+body[data-theme='vintage-light'] h3, 
+body[data-theme='vintage-light'] h4, 
+body[data-theme='vintage-light'] h5, 
+body[data-theme='vintage-light'] h6 {
+    font-family: 'Playfair Display', serif;
+}
+
+/* Old painting squares effect for containers and cards */
+.container, .card, .form-container, .form-container-inline, .balance-container, .balance-summary-section, .modal-content, .react-datepicker {
+    border: 1px solid var(--border-primary); /* Subtle border */
+    box-shadow: 5px 5px 15px var(--shadow-color); /* More pronounced, but soft shadow */
+    border-radius: 5px; /* Slightly rounded corners for a softer look */
+}
+
+/* Calendar icon color for vintage-light theme */
+body[data-theme='vintage-light'] input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: none; /* Reset filter, let color be determined by text-primary */
+    color: var(--text-primary);
+}

@@ -24,6 +24,11 @@ const TransactionList = ({ transactions = [] }) => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [editingTransaction, setEditingTransaction] = useState(null);
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+    const [expandedTransactionId, setExpandedTransactionId] = useState(null);
+
+    const handleToggleExpand = (transactionId) => {
+        setExpandedTransactionId(expandedTransactionId === transactionId ? null : transactionId);
+    };
     
     // Estados para los filtros
     const [typeFilter, setTypeFilter] = useState('');
@@ -158,6 +163,8 @@ const TransactionList = ({ transactions = [] }) => {
                         onRejectTransaction={handleRejectTransaction}
                         onReRequestTransaction={handleReRequestTransaction}
                         onArchiveTransaction={handleArchiveTransaction}
+                        isExpanded={transaction.id === expandedTransactionId}
+                        onToggleExpand={handleToggleExpand}
                     />
                 )) : (
                     <p>No hay movimientos que coincidan con los filtros seleccionados.</p>

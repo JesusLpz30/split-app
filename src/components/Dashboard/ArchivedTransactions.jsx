@@ -39,6 +39,11 @@ const ArchivedTransactions = () => {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [editingTransaction, setEditingTransaction] = useState(null);
     const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+    const [expandedTransactionId, setExpandedTransactionId] = useState(null);
+
+    const handleToggleExpand = (transactionId) => {
+        setExpandedTransactionId(expandedTransactionId === transactionId ? null : transactionId);
+    };
 
     // Fetch only archived transactions
     useEffect(() => {
@@ -161,6 +166,8 @@ const ArchivedTransactions = () => {
                         onAcceptTransaction={handleAcceptTransaction}
                         onRejectTransaction={handleRejectTransaction}
                         onReRequestTransaction={handleReRequestTransaction}
+                        isExpanded={transaction.id === expandedTransactionId}
+                        onToggleExpand={handleToggleExpand}
                     />
                 )) : (
                     <p>No hay transacciones archivadas en este grupo.</p>

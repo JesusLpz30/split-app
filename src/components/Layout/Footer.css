@@ -1,0 +1,35 @@
+.footer-container {
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+    margin-top: auto; /* Pushes the footer to the bottom */
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+.footer-container.dark {
+    /* Specific styles for dark theme if needed */
+}
+
+.footer-container.light {
+    /* Specific styles for light theme if needed */
+}
+
+.footer-container.matrix {
+    /* Specific styles for matrix theme if needed */
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-content p {
+    margin: 5px 0;
+    font-size: 0.9em;
+}
+
+.footer-content .app-name {
+    font-weight: bold;
+    font-size: 1.1em;
+}

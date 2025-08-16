@@ -32,6 +32,14 @@ const GroupList = () => {
     const [owesMe, setOwesMe] = useState([]); // Array of { name: 'Person Name', amount: 10.00 }
     const [iOwe, setIOwe] = useState([]);   // Array of { name: 'Person Name', amount: 10.00 }
 
+    // Estados para controlar la expansión de las secciones de balance
+    const [isOwesMeExpanded, setIsOwesMeExpanded] = useState(false);
+    const [isIOweExpanded, setIsIOweExpanded] = useState(false);
+
+    // Funciones para alternar la expansión
+    const toggleOwesMe = () => setIsOwesMeExpanded(!isOwesMeExpanded);
+    const toggleIOwe = () => setIsIOweExpanded(!isIOweExpanded);
+
     // Función para calcular el balance de un usuario dentro de un grupo
     const calculateUserBalanceInGroup = (transactions, memberDetails, currentUserId, groupType) => {
         const balances = {};
@@ -276,24 +284,38 @@ const GroupList = () => {
                 </p>
 
                 {owesMe.length > 0 && (
-                    <div className="owes-me">
-                        <h3>Te deben:</h3>
-                        <ul>
-                            {owesMe.map((debt, index) => (
-                                <li key={index}>{debt.name}: {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(debt.amount)}</li>
-                            ))}
-                        </ul>
+                    <div className="accordion-item">
+                        <h3 className="accordion-header" onClick={toggleOwesMe}>
+                            Te deben:
+                            <span className="accordion-icon">{isOwesMeExpanded ? '▲' : '▼'}</span>
+                        </h3>
+                        {isOwesMeExpanded && (
+                            <div className="accordion-content">
+                                <ul>
+                                    {owesMe.map((debt, index) => (
+                                        <li key={index}>{debt.name}: {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(debt.amount)}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                     </div>
                 )}
 
                 {iOwe.length > 0 && (
-                    <div className="i-owe">
-                        <h3>Debes:</h3>
-                        <ul>
-                            {iOwe.map((debt, index) => (
-                                <li key={index}>{debt.name}: {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(debt.amount)}</li>
-                            ))}
-                        </ul>
+                    <div className="accordion-item">
+                        <h3 className="accordion-header" onClick={toggleIOwe}>
+                            Debes:
+                            <span className="accordion-icon">{isIOweExpanded ? '▲' : '▼'}</span>
+                        </h3>
+                        {isIOweExpanded && (
+                            <div className="accordion-content">
+                                <ul>
+                                    {iOwe.map((debt, index) => (
+                                        <li key={index}>{debt.name}: {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(debt.amount)}</li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                     </div>
                 )}
 

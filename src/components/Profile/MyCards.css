@@ -1,32 +1,37 @@
+/* MyCards.css */
 
-.card-form {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+.profile-section {
+    margin-top: 20px;
+}
+
+.cards-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.add-card-button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.card-form-modal {
+    display: flex;
+    flex-direction: column;
     gap: 15px;
-    margin-bottom: 25px;
 }
 
-.card-form .input-field,
-.card-form select {
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.card-form select.input-field {
-    padding: 10px;
-    border: 1px solid var(--border-color);
-    border-radius: 5px;
-    background-color: var(--background-secondary);
-    color: var(--text-primary);
-}
-
-.card-form button {
-    grid-column: 1 / -1;
-}
-
-/* Estilos para el Dropdown con Búsqueda */
+/* Searchable Dropdown Styles */
 .searchable-dropdown {
     position: relative;
+    width: 100%;
+}
+
+.searchable-dropdown .input-field {
+    width: 100%;
+    padding-right: 30px; /* Space for potential arrow icon */
 }
 
 .dropdown-list {
@@ -34,96 +39,135 @@
     top: 100%;
     left: 0;
     right: 0;
-    background: var(--background-secondary, #fff);
-    border: 1px solid var(--border-color, #ccc);
-    border-radius: 5px;
-    list-style: none;
-    padding: 5px 0;
-    margin-top: 5px;
-    max-height: 150px;
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-top: none;
+    max-height: 200px;
     overflow-y: auto;
-    z-index: 1000;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    z-index: 100;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 4px 8px var(--shadow-color);
 }
 
 .dropdown-list li {
     padding: 10px;
     cursor: pointer;
+    text-align: left;
     color: var(--text-primary);
 }
 
 .dropdown-list li:hover {
-    background-color: var(--accent-color-translucent, rgba(0, 123, 255, 0.1));
+    background-color: var(--bg-hover);
 }
 
 .dropdown-list .no-results {
     color: var(--text-secondary);
-    font-style: italic;
-    cursor: default;
+    text-align: center;
+    padding: 10px;
 }
 
-.cards-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 20px;
+/* Card Flip Container */
+.card-container-3d {
+    width: 300px; /* Adjust as needed */
+    height: 180px; /* Adjust as needed */
+    perspective: 1000px; /* For 3D effect */
+    margin-bottom: 20px;
+    cursor: pointer; /* Indicate clickable */
 }
 
-/* Contenedor del botón "Agregar Tarjeta" */
-.add-card-button-container {
-    display: flex;
-    justify-content: center;
-    padding-top: 20px; /* Espacio sobre el botón */
-}
-
-.add-card-button-container .button {
-    max-width: 200px; /* Ancho máximo para el botón */
-}
-
-/* Formulario dentro del Modal */
-.card-form-modal {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-/* Diseño de tarjeta */
-.card-item-display {
+/* Card Inner (for the flip) */
+.card-inner {
     position: relative;
-    padding: 20px;
-    border-radius: 12px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s; /* Flip animation duration */
+    transform-style: preserve-3d; /* Keep children in 3D space */
+}
+
+/* Flipped state */
+.card-inner.is-flipped {
+    transform: rotateY(180deg);
+}
+
+/* Card Front and Back */
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden; /* Hide back of the element when facing away */
+    backface-visibility: hidden;
+    border-radius: 8px; /* Match existing card styling */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 15px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.3s ease, color 0.3s ease;
-    background: var(--card-background, #ffffff);
-    color: var(--card-text-color, #333);
-    border: 1px solid var(--card-border-color, #e0e0e0);
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-.card-item-display:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+/* Card Front specific styles (inherits from .card-item-display) */
+.card-front {
+    background-color: var(--bg-secondary); /* Use theme background */
+    color: var(--text-primary); /* Use theme text color */
 }
 
-[data-theme='dark'] .card-item-display {
-    background: var(--card-background, #2a2a3a);
-    color: var(--card-text-color, #e0e0e0);
-    border-color: var(--card-border-color, #444);
+/* Card Back specific styles */
+.card-back {
+    background-color: var(--bg-tertiary); /* Slightly different background for back */
+    color: var(--text-primary);
+    transform: rotateY(180deg); /* Initially hidden */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-[data-theme='matrix'] .card-item-display {
-    background: var(--card-background, #021002);
-    color: var(--card-text-color, #00ff41);
-    border-color: var(--card-border-color, #00ff41);
+.card-back-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 80%; /* Adjust width of buttons */
 }
 
-[data-theme='matrix'] .card-brand {
-    color: var(--accent-color, #00ff41);
+.card-back-content h4 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: var(--text-primary);
 }
 
-[data-theme='matrix'] .card-number {
-    color: var(--card-number-color, #00ff41);
+/* Ensure buttons on back are styled correctly */
+.card-back-content .button {
+    width: 100%;
+    padding: 10px 15px;
+    font-size: 1em;
+}
+
+/* Existing .card-item-display styles should be applied to .card-front */
+/* You might need to review .card-item-display and ensure it's compatible with .card-front */
+/* For example, if .card-item-display has fixed width/height, it should be moved to .card-container-3d */
+
+/* Existing .card-item-display styles (adjust if necessary) */
+.card-item-display {
+    /* Keep existing styles that define the look of the card */
+    /* Ensure no fixed width/height here, as it's handled by .card-container-3d */
+    /* Example: */
+    /* border: 1px solid #ccc; */
+    /* border-radius: 8px; */
+    /* overflow: hidden; */
+}
+
+/* Adjust card-item-display to be more flexible within the flip container */
+.card-item-display {
+    /* Remove fixed width/height if present */
+    /* Ensure padding and content layout are flexible */
+}
+
+/* Specific styles for card elements */
+.card-header, .card-body, .card-footer {
+    width: 100%;
 }
 
 .card-header {
@@ -133,55 +177,55 @@
 }
 
 .card-bank {
-    font-size: 1.1rem;
-    font-weight: 600;
+    font-weight: bold;
+    font-size: 1.1em;
 }
 
 .card-brand {
-    font-size: 1.2rem;
-    font-weight: bold;
-    font-style: italic;
-    color: var(--accent-color, #007bff);
+    font-size: 0.9em;
+    color: var(--text-secondary);
 }
 
 .card-number {
-    font-family: 'Courier New', Courier, monospace;
-    font-size: 1.1rem;
-    text-align: center;
-    letter-spacing: 1.5px;
-    word-break: break-all;
-    color: var(--card-number-color, var(--text-primary));
+    font-family: 'monospace'; /* Or a suitable card number font */
+    font-size: 1.4em;
+    letter-spacing: 2px;
+    margin: 15px 0;
 }
 
-.card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    font-size: 0.85rem;
+.card-holder {
+    font-size: 0.9em;
     text-transform: uppercase;
+}
+
+.card-expiry {
+    font-size: 0.8em;
     color: var(--text-secondary);
 }
 
 .card-type-indicator {
-    font-weight: 600;
-}
-
-.card-delete-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    background: transparent !important;
-    border: none !important;
-    color: var(--text-secondary) !important;
-    font-size: 1.2rem;
-    padding: 5px !important;
-    border-radius: 50% !important;
-    cursor: pointer;
-    opacity: 0.7;
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    bottom: 10px;
+    right: 20px;
+    font-size: 0.7em;
+    background-color: var(--bg-tertiary);
+    padding: 3px 8px;
+    border-radius: 4px;
+    color: var(--text-secondary);
 }
 
-.card-item-display:hover .card-delete-btn {
-    opacity: 1;
-    transform: scale(1.1);
+/* Specific brand colors (optional, but good for visual distinction) */
+.visa {
+    /* background-color: #1a1f71; */
+    /* color: white; */
+}
+
+.mastercard {
+    /* background-color: #eb001b; */
+    /* color: white; */
+}
+
+.american.express {
+    /* background-color: #2e77bb; */
+    /* color: white; */
 }

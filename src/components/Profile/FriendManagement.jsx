@@ -6,16 +6,15 @@ import { useAlert } from '../../context/alertUtils';
 import ConfirmModal from '../Layout/ConfirmModal';
 
 // Componente reutilizable para secciones colapsables
-const CollapsibleSection = ({ title, count, children }) => {
-    const [isCollapsed, setIsCollapsed] = useState(true);
+const CollapsibleSection = ({ title, count, children, sectionName, isOpen, onToggle }) => {
 
     return (
         <div className="collapsible-section">
-            <div className="collapsible-header" onClick={() => setIsCollapsed(!isCollapsed)}>
-                <h3>{title} <span className="count-badge">{count}</span></h3>
-                <span className="collapse-icon">{isCollapsed ? '▼' : '▲'}</span>
+            <div className="collapsible-header" onClick={() => onToggle(sectionName)}>
+                <h3>{title} {count !== undefined && <span className="count-badge">{count}</span>}</h3>
+                <span className="collapse-icon">{isOpen ? '▲' : '▼'}</span>
             </div>
-            {!isCollapsed && (
+            {isOpen && (
                 <div className="collapsible-content">
                     {children}
                 </div>
@@ -33,6 +32,11 @@ const FriendManagement = () => {
     const [loading, setLoading] = useState(false);
     const [isConfirmRemoveModalOpen, setIsConfirmRemoveModalOpen] = useState(false);
     const [friendToRemove, setFriendToRemove] = useState(null);
+    const [openSection, setOpenSection] = useState(null); // State to manage which section is open
+
+    const handleToggleSection = (sectionName) => {
+        setOpenSection(openSection === sectionName ? null : sectionName);
+    };
 
     useEffect(() => {
         if (!currentUser) return;
@@ -129,7 +133,12 @@ const FriendManagement = () => {
             <h2>Gestión de Amigos</h2>
             {loading && <p>Cargando...</p>}
 
-            <CollapsibleSection title="Enviar Solicitud">
+            <CollapsibleSection 
+                title="Enviar Solicitud" 
+                sectionName="sendRequest" 
+                isOpen={openSection === "sendRequest"} 
+                onToggle={handleToggleSection}
+            >
                 <form onSubmit={handleSendFriendRequest} className="form-container-inline">
                     <input
                         type="email"
@@ -143,7 +152,13 @@ const FriendManagement = () => {
                 </form>
             </CollapsibleSection>
 
-            <CollapsibleSection title="Solicitudes Pendientes" count={pendingRequests.length}>
+            <CollapsibleSection 
+                title="Solicitudes Pendientes" 
+                count={pendingRequests.length} 
+                sectionName="pendingRequests" 
+                isOpen={openSection === "pendingRequests"} 
+                onToggle={handleToggleSection}
+            >
                 {pendingRequests.length > 0 ? (
                     <ul className="list">
                         {pendingRequests.map(request => (
@@ -161,7 +176,13 @@ const FriendManagement = () => {
                 )}
             </CollapsibleSection>
 
-            <CollapsibleSection title="Mis Amigos" count={friendsList.length}>
+            <CollapsibleSection 
+                title="Mis Amigos" 
+                count={friendsList.length} 
+                sectionName="myFriends" 
+                isOpen={openSection === "myFriends"} 
+                onToggle={handleToggleSection}
+            >
                 {friendsList.length > 0 ? (
                     <ul className="list">
                         {friendsList.map(friend => (

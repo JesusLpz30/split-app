@@ -4,4 +4,4 @@ export const ThemeContext = createContext();
 
 export const useTheme = () => useContext(ThemeContext);
 
-export const themes = ['dark', 'light', 'matrix']; // Definir los temas disponibles
+export const themes = ['dark', 'light', 'matrix', 'vintage-light']; // Definir los temas disponibles

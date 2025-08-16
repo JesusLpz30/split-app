@@ -6,6 +6,8 @@ import { useAlert } from '../../context/alertUtils';
 import Modal from '../Layout/Modal';
 import ConfirmModal from '../Layout/ConfirmModal'; // Mantener si se usa para eliminar cuenta
 import InfoTooltip from '../Layout/InfoTooltip';
+import PrivacyPolicy from './PrivacyPolicy';
+import Wiki from '../Wiki/Wiki';
 import './Settings.css';
 
 const Settings = () => {
@@ -16,6 +18,8 @@ const Settings = () => {
     const [error, setError] = useState('');
     const [isDeleteAccountModalOpen, setIsDeleteAccountModalOpen] = useState(false);
     const [deleteConfirmationText, setDeleteConfirmationText] = useState('');
+    const [isPrivacyPolicyModalOpen, setIsPrivacyPolicyModalOpen] = useState(false);
+    const [isWikiModalOpen, setIsWikiModalOpen] = useState(false);
 
     // Eliminar estados de categorías
     // const [categories, setCategories] = useState([]);
@@ -65,7 +69,6 @@ const Settings = () => {
 
     return (
         <div className="settings-container">
-            <h1>Ajustes</h1>
             {error && <p className="error-message">{error}</p>}
 
             <div className="settings-section">
@@ -75,6 +78,8 @@ const Settings = () => {
                     <button className="button" onClick={cycleTheme}>Cambiar Tema</button>
                 </div>
             </div>
+
+            
 
             {/* Sección de Categorías eliminada */}
             {/*
@@ -179,6 +184,16 @@ const Settings = () => {
                 message={`¿Estás seguro de que quieres eliminar la categoría "${categoryToDelete?.name}"? Esta acción no se puede deshacer.`}
             />
             */}
+
+            <PrivacyPolicy
+                isOpen={isPrivacyPolicyModalOpen}
+                onClose={() => setIsPrivacyPolicyModalOpen(false)}
+            />
+
+            <Wiki
+                isOpen={isWikiModalOpen}
+                onClose={() => setIsWikiModalOpen(false)}
+            />
         </div>
     );
 };

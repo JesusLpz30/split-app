@@ -3,10 +3,12 @@ import { useAuth } from '../../context/authUtils';
 import { uploadProfileImage } from '../../firebase/storageService';
 import { updateUserProfilePhoto, updateUserProfileDisplayName, deleteUserAccount } from '../../firebase/authService';
 import ConfirmModal from '../Layout/ConfirmModal';
-import FriendManagement from './FriendManagement';
+import Modal from '../Layout/Modal'; // Import Modal
+// import FriendManagement from './FriendManagement'; // Removed
 import MyCards from './MyCards';
 import InfoTooltip from '../Layout/InfoTooltip';
 import { useAlert } from '../../context/alertUtils';
+import { FaEdit, FaShareAlt } from 'react-icons/fa'; // Import icons
 import './Profile.css';
 
 const DefaultAvatar = () => (
@@ -27,6 +29,8 @@ const Profile = () => {
 
     const [editingDisplayName, setEditingDisplayName] = useState(currentUser.displayName || '');
     const [isConfirmDeleteModalOpen, setIsConfirmDeleteModalOpen] = useState(false);
+    const [isShareModalOpen, setIsShareModalOpen] = useState(false); 
+    const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false); // New state for edit profile modal
 
     const shareLink = currentUser ? `${window.location.origin}/add-friend-by-link?uid=${currentUser.uid}` : '';
 
@@ -107,61 +111,31 @@ const Profile = () => {
 
             {/* Bloque Unificado de Perfil */}
             <div className="profile-section user-profile-header">
-                <h3>Perfil de Usuario</h3>
+                <h3>{currentUser.displayName || 'Perfil de Usuario'}</h3> {/* Dynamic Title */}
                 <div className="avatar-container">
-                    {previewUrl ? (
-                        <img src={previewUrl} alt="Vista previa" className="profile-avatar" />
-                    ) : currentUser.photoURL ? (
+                    {currentUser.photoURL ? (
                         <img src={currentUser.photoURL} alt="Avatar" className="profile-avatar" />
                     ) : (
                         <DefaultAvatar />
                     )}
                 </div>
 
-                <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    ref={fileInputRef}
-                    style={{ display: 'none' }}
-                />
+                <div className="profile-actions">
+                    {/* Edit Profile Button */}
+                    <button onClick={() => setIsEditProfileModalOpen(true)} className="button primary">
+                        <FaEdit />
+                    </button>
 
-                <div className="avatar-actions">
-                    <button onClick={triggerFileSelect} className="button">Cambiar Foto</button>
-                    {newImage && (
-                        <button onClick={handleUpload} className="button primary" disabled={loading}>
-                            {loading ? 'Guardando...' : 'Guardar Foto'}
-                        </button>
-                    )}
-                </div>
-                
-                <div className="username-section">
-                    <input
-                        type="text"
-                        value={editingDisplayName}
-                        onChange={(e) => setEditingDisplayName(e.target.value)}
-                        placeholder="Tu nombre de usuario"
-                        className="input-field"
-                    />
-                    <button onClick={handleUpdateDisplayName} className="button primary" disabled={editingDisplayName.trim() === '' || editingDisplayName === currentUser.displayName || loading}>
-                        Guardar Nombre
+                    {/* Botón para abrir el modal de compartir */}
+                    <button onClick={() => setIsShareModalOpen(true)} className="button secondary">
+                        <FaShareAlt />
                     </button>
                 </div>
             </div>
 
-            <FriendManagement />
+            {/* <FriendManagement /> */}
 
             <MyCards />
-
-            <div className="profile-section">
-                <h3>Compartir Perfil <InfoTooltip text="Usa este enlace para que otros usuarios puedan enviarte solicitudes de amistad directamente." /></h3>
-                <p>Comparte este enlace para que otros usuarios puedan agregarte como amigo:</p>
-                <div className="share-link-container">
-                    <input type="text" value={shareLink} readOnly className="input-field" />
-                    <button onClick={handleCopyShareLink} className="button">Copiar Enlace</button>
-                </div>
-                <p className="info-text">Puedes generar un código QR a partir de este enlace con una herramienta externa para compartirlo fácilmente.</p>
-            </div>
 
             <div className="profile-section">
                 <h3>Gestión de Cuenta <InfoTooltip text="Aquí puedes gestionar opciones avanzadas de tu cuenta, incluyendo la eliminación permanente de tu perfil y todos los datos asociados." /></h3>
@@ -177,6 +151,62 @@ const Profile = () => {
                 title="Confirmar Eliminación de Cuenta"
                 message="¿Estás seguro de que quieres eliminar tu cuenta? Esta acción es irreversible y eliminará todos tus datos."
             />
+
+            {/* Modal de Compartir Perfil */}
+            <Modal isOpen={isShareModalOpen} onClose={() => setIsShareModalOpen(false)} title="Compartir Perfil">
+                <div className="share-modal-content">
+                    <p>Comparte este enlace para que otros usuarios puedan agregarte como amigo:</p>
+                    <div className="share-link-container">
+                        <input type="text" value={shareLink} readOnly className="input-field" />
+                        <button onClick={handleCopyShareLink} className="button">Copiar Enlace</button>
+                    </div>
+                    <p className="info-text">Puedes generar un código QR a partir de este enlace con una herramienta externa para compartirlo fácilmente.</p>
+                </div>
+            </Modal>
+
+            {/* Modal de Editar Perfil */}
+            <Modal isOpen={isEditProfileModalOpen} onClose={() => setIsEditProfileModalOpen(false)} title="Editar Perfil">
+                <div className="edit-profile-modal-content">
+                    <div className="avatar-edit-section">
+                        <div className="avatar-container">
+                            {previewUrl ? (
+                                <img src={previewUrl} alt="Vista previa" className="profile-avatar" />
+                            ) : currentUser.photoURL ? (
+                                <img src={currentUser.photoURL} alt="Avatar" className="profile-avatar" />
+                            ) : (
+                                <DefaultAvatar />
+                            )}
+                        </div>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFileChange}
+                            ref={fileInputRef}
+                            style={{ display: 'none' }}
+                        />
+                        <button onClick={triggerFileSelect} className="button secondary">Cambiar Foto</button>
+                        {newImage && (
+                            <button onClick={handleUpload} className="button primary" disabled={loading}>
+                                {loading ? 'Guardando...' : 'Guardar Foto'}
+                            </button>
+                        )}
+                    </div>
+                    <div className="display-name-edit-section">
+                        <label htmlFor="displayNameInput">Nombre de Usuario:</label>
+                        <input
+                            id="displayNameInput"
+                            type="text"
+                            value={editingDisplayName}
+                            onChange={(e) => setEditingDisplayName(e.target.value)}
+                            placeholder="Tu nombre de usuario"
+                            className="input-field"
+                        />
+                        <button onClick={handleUpdateDisplayName} className="button primary" disabled={editingDisplayName.trim() === '' || editingDisplayName === currentUser.displayName || loading}>
+                            Guardar Nombre
+                        </button>
+                    </div>
+                </div>
+            </Modal>
         </div>
     );
 };

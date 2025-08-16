@@ -1,34 +1,58 @@
-
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuth } from '../../context/authUtils';
 import { useAlert } from '../../context/alertUtils';
 import { db } from '../../firebase/config';
 import { collection, addDoc, getDocs, deleteDoc, doc, query, where } from 'firebase/firestore';
 import { banks, getCardTypeByNumber } from '../../firebase/banks';
-import Modal from '../Layout/Modal'; // Importar el Modal
+import Modal from '../Layout/Modal';
+// import ConfirmModal from '../Layout/ConfirmModal'; // No longer needed
 import './MyCards.css';
 
 // --- Componente de Tarjeta de Crédito (Visual) ---
-const CreditCard = ({ card, onDelete }) => {
+const CreditCard = ({ card, onEdit, onShare, onDelete }) => {
+    const [isFlipped, setIsFlipped] = useState(false);
+
     const formatCardNumber = (number) => {
         return number.replace(/(\d{4})/g, '$1 ').trim();
     };
     const cardBrand = getCardTypeByNumber(card.cardNumber);
+
+    const handleCardClick = () => {
+        setIsFlipped(!isFlipped);
+    };
+
     return (
-        <div className={`card-item-display ${cardBrand.toLowerCase()}`}>
-            <div className="card-header">
-                <div className="card-bank">{card.issuingBank}</div>
-                <div className="card-brand">{cardBrand}</div>
+        <div className="card-container-3d" onClick={handleCardClick}>
+            <div className={`card-inner ${isFlipped ? 'is-flipped' : ''}`}>
+                <div className={`card-item-display card-front ${cardBrand.toLowerCase()}`}>
+                    <div className="card-header">
+                        <div className="card-bank">{card.issuingBank}</div>
+                        <div className="card-brand">{cardBrand}</div>
+                    </div>
+                    <div className="card-body">
+                        <div className="card-number">{formatCardNumber(card.cardNumber)}</div>
+                    </div>
+                    <div className="card-footer">
+                        <div className="card-holder">{card.cardholderName}</div>
+                        <div className="card-expiry">Exp: {card.expirationDate}</div>
+                    </div>
+                    <div className="card-type-indicator">{card.cardType}</div>
+                </div>
+                <div className="card-item-display card-back">
+                    <div className="card-back-content">
+                        <h4>Opciones de Tarjeta</h4>
+                        <button className="button primary" onClick={(e) => { e.stopPropagation(); onEdit(card); }}>
+                            Editar
+                        </button>
+                        <button className="button secondary" onClick={(e) => { e.stopPropagation(); onShare(card); }}>
+                            Compartir
+                        </button>
+                        <button className="button danger" onClick={(e) => { e.stopPropagation(); onDelete(card.id); }}>
+                            Eliminar
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div className="card-body">
-                <div className="card-number">{formatCardNumber(card.cardNumber)}</div>
-            </div>
-            <div className="card-footer">
-                <div className="card-holder">{card.cardholderName}</div>
-                <div className="card-expiry">Exp: {card.expirationDate}</div>
-            </div>
-            <div className="card-type-indicator">{card.cardType}</div>
-            <button onClick={() => onDelete(card.id)} className="button danger card-delete-btn">&#x2715;</button>
         </div>
     );
 };
@@ -90,7 +114,7 @@ const MyCards = () => {
     const { showAlert } = useAlert();
     const [cards, setCards] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false); // Estado para el modal
+    const [isAddCardModalOpen, setIsAddCardModalOpen] = useState(false); // Renamed for clarity
     const [cardData, setCardData] = useState({
         cardholderName: '',
         issuingBank: '',
@@ -158,7 +182,7 @@ const MyCards = () => {
             await addDoc(collection(db, 'cards'), { ...cardData, cardNumber: finalCardNumber, userId: currentUser.uid });
             showAlert('Tarjeta agregada con éxito.', 'success');
             setCardData({ cardholderName: '', issuingBank: '', expirationDate: '', cardNumber: '', cardType: 'Crédito' });
-            setIsModalOpen(false); // Cerrar modal al agregar
+            setIsAddCardModalOpen(false); // Cerrar modal al agregar
             fetchCards();
         } catch (error) {
             console.error("Error adding card:", error);
@@ -181,22 +205,38 @@ const MyCards = () => {
         setLoading(false);
     };
 
+    const handleEditCard = (card) => {
+        showAlert(`Editar tarjeta: ${card.cardholderName} - ${card.cardNumber.slice(-4)}`, 'info');
+        // Implement actual edit logic here (e.g., open a modal with card data)
+    };
+
+    const handleShareCard = (card) => {
+        showAlert(`Compartir tarjeta: ${card.cardholderName} - ${card.cardNumber.slice(-4)}`, 'info');
+        // Implement actual share logic here
+    };
+
     return (
         <div className="profile-section">
             <h3>Mis Tarjetas</h3>
             <div className="cards-list">
                 {loading && <p>Cargando tarjetas...</p>}
                 {cards.map(card => (
-                    <CreditCard key={card.id} card={card} onDelete={handleDeleteCard} />
+                    <CreditCard 
+                        key={card.id} 
+                        card={card} 
+                        onEdit={handleEditCard}
+                        onShare={handleShareCard}
+                        onDelete={handleDeleteCard}
+                    />
                 ))}
             </div>
             <div className="add-card-button-container">
-                <button onClick={() => setIsModalOpen(true)} className="button primary">
+                <button onClick={() => setIsAddCardModalOpen(true)} className="button primary">
                     Agregar Tarjeta
                 </button>
             </div>
 
-            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} title="Agregar Nueva Tarjeta">
+            <Modal isOpen={isAddCardModalOpen} onClose={() => setIsAddCardModalOpen(false)} title="Agregar Nueva Tarjeta">
                 <form onSubmit={handleAddCard} className="card-form-modal">
                     <input
                         type="text"
